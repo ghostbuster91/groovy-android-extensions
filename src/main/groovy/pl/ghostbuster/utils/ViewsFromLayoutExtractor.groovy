@@ -23,7 +23,7 @@ final class ViewsFromLayoutExtractor {
 
     private Collection<View> extractIds(GPathResult xmlLayout) {
         return xmlLayout.'**'
-                .grep { it['@android:id'] != '' }
+                .findAll { it['@android:id'] != '' }
                 .collect { new View(id: removeIdPreffix(it), type: it.name()) }
     }
 

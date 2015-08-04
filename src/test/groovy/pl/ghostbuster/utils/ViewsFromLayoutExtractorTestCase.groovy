@@ -4,31 +4,34 @@ import pl.ghostbuster.grooid.model.View
 import spock.lang.Specification
 
 final class ViewsFromLayoutExtractorTestCase extends Specification {
+    private ViewsFromLayoutExtractor extractor
 
+    void setup() {
+        extractor = new ViewsFromLayoutExtractor()
+    }
 
     def "should find layout id"() {
-        given:
-        ViewsFromLayoutExtractor extractor = new ViewsFromLayoutExtractor()
-
         when:
-        Collection<View> names = extractor.extractFieldsNames(getFileFromResources('/layout/simple_layout.xml'))
+        Collection<View> names = this.extractor.extractFieldsNames(getFileFromResources('/layout/simple_layout.xml'))
 
         then:
         names == [new View(id: 'some_linear_layout_id', type: 'LinearLayout')]
     }
 
-    // TODO: break down into smaller tests
     def "should find nested ids in layout"() {
-        given:
-        ViewsFromLayoutExtractor extractor = new ViewsFromLayoutExtractor()
-
         when:
         Collection<View> names = extractor.extractFieldsNames(getFileFromResources('/layout/layout_with_nested_ids.xml'))
 
         then:
-        names == [new View(id: 'root_layout', type: 'LinearLayout'), new View(id: 'nested_image_view', type: 'CustomObject'),
-                  new View(id: 'text_view_id', type: 'TextView'), new View(id: 'next_text_view', type: 'TextView'),
-                  new View(id: 'other_custom_oject', type: 'Custom2')]
+        names == [new View(id: 'root_layout', type: 'LinearLayout'), new View(id: 'nested_image_view', type: 'ImageView')]
+    }
+
+    def "should return proper value of custom view type"() {
+        when:
+        Collection<View> names = extractor.extractFieldsNames(getFileFromResources('/layout/layout_with_custom_package.xml'))
+
+        then:
+        names.contains(new View(id: 'nested_image_view', type: 'com.custom.package.CustomObject'))
     }
 
     private static String getFileFromResources(String filePath) {

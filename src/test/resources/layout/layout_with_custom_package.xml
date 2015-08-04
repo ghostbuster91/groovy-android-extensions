@@ -7,7 +7,7 @@
               android:clipToPadding="false"
               android:orientation="horizontal">
 
-    <ImageView
+    <com.custom.package.CustomObject
             android:id="@+id/nested_image_view"
             android:layout_width="@dimen/small_photo"
             android:layout_height="@dimen/small_photo"/>

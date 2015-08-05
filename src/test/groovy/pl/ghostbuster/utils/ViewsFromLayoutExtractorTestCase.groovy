@@ -12,7 +12,7 @@ final class ViewsFromLayoutExtractorTestCase extends Specification {
 
     def "should find layout id"() {
         when:
-        Collection<View> names = this.extractor.extractFieldsNames(getFileFromResources('/layout/simple_layout.xml'))
+        Collection<View> names = this.extractor.extractFromLayout(getFileFromResources('/layout/simple_layout.xml'))
 
         then:
         names == [new View(id: 'some_linear_layout_id', type: 'LinearLayout')]
@@ -20,7 +20,7 @@ final class ViewsFromLayoutExtractorTestCase extends Specification {
 
     def "should find nested ids in layout"() {
         when:
-        Collection<View> names = extractor.extractFieldsNames(getFileFromResources('/layout/layout_with_nested_ids.xml'))
+        Collection<View> names = extractor.extractFromLayout(getFileFromResources('/layout/layout_with_nested_ids.xml'))
 
         then:
         names == [new View(id: 'root_layout', type: 'LinearLayout'), new View(id: 'nested_image_view', type: 'ImageView')]
@@ -28,7 +28,7 @@ final class ViewsFromLayoutExtractorTestCase extends Specification {
 
     def "should return proper value of custom view type"() {
         when:
-        Collection<View> names = extractor.extractFieldsNames(getFileFromResources('/layout/layout_with_custom_package.xml'))
+        Collection<View> names = extractor.extractFromLayout(getFileFromResources('/layout/layout_with_custom_package.xml'))
 
         then:
         names.contains(new View(id: 'nested_image_view', type: 'com.custom.package.CustomObject'))

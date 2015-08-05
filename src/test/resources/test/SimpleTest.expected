@@ -1,7 +1,8 @@
 package test
 
-import pl.ghostbuster.grooid.BindLayout
+import android.widget.LinearLayout
 
-@BindLayout
 class FirstCase {
+
+    public final LinearLayout someLinearLayoutId
 }

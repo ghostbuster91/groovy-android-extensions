@@ -10,7 +10,7 @@ final class ViewsFromLayoutExtractor {
     private static final LinkedHashMap<String, String> androidNamespaces =
             [android: 'http://schemas.android.com/apk/res/android', tools: 'http://schemas.android.com/tools']
 
-    Collection<View> extractFieldsNames(String layoutFile) {
+    Collection<View> extractFromLayout(String layoutFile) {
         GPathResult xmlLayout = createSlurper(layoutFile)
         return extractIds(xmlLayout)
     }

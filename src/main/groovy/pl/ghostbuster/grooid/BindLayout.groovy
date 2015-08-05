@@ -11,4 +11,6 @@ import java.lang.annotation.Target
 @Target([ElementType.TYPE])
 @GroovyASTTransformationClass(classes = [BindLayoutASTTransformation])
 @interface BindLayout {
+
+    Class<Closure<Integer>> value()
 }

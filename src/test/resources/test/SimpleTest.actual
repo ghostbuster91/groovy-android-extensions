@@ -1,8 +1,9 @@
 package test
 
-import pl.ghostbuster.grooid.BindLayout
+import pl.ghostbuster.grooid.*
 
-@BindLayout
+@BindLayout({R.id.simple_layout})
 class FirstCase {
+
 
 }

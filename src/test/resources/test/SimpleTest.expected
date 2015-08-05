@@ -5,4 +5,5 @@ import android.widget.LinearLayout
 class FirstCase {
 
     public final LinearLayout someLinearLayoutId
+
 }

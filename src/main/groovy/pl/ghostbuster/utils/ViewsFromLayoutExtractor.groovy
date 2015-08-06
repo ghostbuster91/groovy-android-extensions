@@ -1,7 +1,7 @@
 package pl.ghostbuster.utils
 
 import groovy.util.slurpersupport.GPathResult
-import pl.ghostbuster.grooid.model.View
+import pl.ghostbuster.grooid.model.ViewObject
 
 import java.util.regex.Pattern
 
@@ -10,7 +10,7 @@ final class ViewsFromLayoutExtractor {
     private static final LinkedHashMap<String, String> androidNamespaces =
             [android: 'http://schemas.android.com/apk/res/android', tools: 'http://schemas.android.com/tools']
 
-    Collection<View> extractFromLayout(String layoutFile) {
+    Collection<ViewObject> extractFromLayout(String layoutFile) {
         GPathResult xmlLayout = createSlurper(layoutFile)
         return extractIds(xmlLayout)
     }
@@ -21,10 +21,10 @@ final class ViewsFromLayoutExtractor {
                 .declareNamespace(androidNamespaces)
     }
 
-    private Collection<View> extractIds(GPathResult xmlLayout) {
+    private Collection<ViewObject> extractIds(GPathResult xmlLayout) {
         return xmlLayout.'**'
                 .findAll { it['@android:id'] != '' }
-                .collect { new View(id: removeIdPreffix(it), type: it.name()) }
+                .collect { new ViewObject(id: removeIdPreffix(it), type: it.name()) }
     }
 
     private String removeIdPreffix(def attribute) {

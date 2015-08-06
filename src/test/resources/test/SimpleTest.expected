@@ -1,9 +1,15 @@
 package test
 
 import android.widget.LinearLayout
+import android.view.View
+import pl.ghostbuster.grooid.*
 
 class FirstCase {
 
     public final LinearLayout someLinearLayoutId
 
+
+    public FirstCase(View itemView){
+          someLinearLayoutId = itemView.findViewById(R.id.some_linear_layout_id)
+    }
 }

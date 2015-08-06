@@ -2,6 +2,7 @@ package test
 
 import pl.ghostbuster.grooid.*
 
+
 @BindLayout({R.id.simple_layout})
 class FirstCase {
 

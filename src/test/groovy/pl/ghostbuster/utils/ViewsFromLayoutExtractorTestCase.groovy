@@ -1,6 +1,6 @@
 package pl.ghostbuster.utils
 
-import pl.ghostbuster.grooid.model.View
+import pl.ghostbuster.grooid.model.ViewObject
 import spock.lang.Specification
 
 final class ViewsFromLayoutExtractorTestCase extends Specification {
@@ -12,26 +12,26 @@ final class ViewsFromLayoutExtractorTestCase extends Specification {
 
     def "should find layout id"() {
         when:
-        Collection<View> names = this.extractor.extractFromLayout(getFileFromResources('/layout/simple_layout.xml'))
+        Collection<ViewObject> names = this.extractor.extractFromLayout(getFileFromResources('/layout/simple_layout.xml'))
 
         then:
-        names == [new View(id: 'some_linear_layout_id', type: 'LinearLayout')]
+        names == [new ViewObject(id: 'some_linear_layout_id', type: 'LinearLayout')]
     }
 
     def "should find nested ids in layout"() {
         when:
-        Collection<View> names = extractor.extractFromLayout(getFileFromResources('/layout/layout_with_nested_ids.xml'))
+        Collection<ViewObject> names = extractor.extractFromLayout(getFileFromResources('/layout/layout_with_nested_ids.xml'))
 
         then:
-        names == [new View(id: 'root_layout', type: 'LinearLayout'), new View(id: 'nested_image_view', type: 'ImageView')]
+        names == [new ViewObject(id: 'root_layout', type: 'LinearLayout'), new ViewObject(id: 'nested_image_view', type: 'ImageView')]
     }
 
     def "should return proper value of custom view type"() {
         when:
-        Collection<View> names = extractor.extractFromLayout(getFileFromResources('/layout/layout_with_custom_package.xml'))
+        Collection<ViewObject> names = extractor.extractFromLayout(getFileFromResources('/layout/layout_with_custom_package.xml'))
 
         then:
-        names.contains(new View(id: 'nested_image_view', type: 'com.custom.package.CustomObject'))
+        names.contains(new ViewObject(id: 'nested_image_view', type: 'com.custom.package.CustomObject'))
     }
 
     private static String getFileFromResources(String filePath) {

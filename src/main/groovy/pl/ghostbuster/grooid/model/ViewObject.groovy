@@ -5,7 +5,7 @@ import groovy.transform.Immutable
 
 @CompileStatic
 @Immutable
-final class View {
+final class ViewObject {
 
     String id
     String type

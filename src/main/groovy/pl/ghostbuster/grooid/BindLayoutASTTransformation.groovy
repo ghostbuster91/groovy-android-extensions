@@ -17,16 +17,19 @@ class BindLayoutASTTransformation extends AbstractASTTransformation {
 
     public static final String transformationParameter = 'value'
     private ClassNode classNode
+    private AnnotationNode annotationNode
 
     @Override
     void visit(ASTNode[] nodes, SourceUnit source) {
         this.classNode = nodes[1] as ClassNode
-        AnnotationNode annotationNode = nodes[0]
-        Collection<View> views = extractFieldsFromLayout(layoutNameFromAnnotation(annotationNode))
+        this.annotationNode = nodes[0] as AnnotationNode
+        this.classNode.annotations.remove(this.annotationNode)
+
+        Collection<View> views = extractFieldsFromLayout(extractLayoutNameFromAnnotation())
         views.each(this.&createFieldBasedOn)
     }
 
-    private String layoutNameFromAnnotation(AnnotationNode annotationNode) {
+    private String extractLayoutNameFromAnnotation() {
         def member = annotationNode.getMember(transformationParameter)
         return member.code.statements[0].expression.property.value
     }

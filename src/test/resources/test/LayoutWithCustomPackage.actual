@@ -1,0 +1,8 @@
+import pl.ghostbuster.grooid.*
+
+
+@BindLayout({R.layout.layout_with_custom_package})
+class LayoutWithCustomPackageTestCase {
+
+
+}

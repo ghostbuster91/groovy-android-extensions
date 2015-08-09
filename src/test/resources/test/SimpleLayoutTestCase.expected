@@ -4,12 +4,12 @@ import android.widget.LinearLayout
 import android.view.View
 import pl.ghostbuster.grooid.*
 
-class FirstCase {
+class SimpleLayoutTestCase {
 
     public final LinearLayout someLinearLayoutId
 
 
-    public FirstCase(View itemView){
+    public SimpleLayoutTestCase(View itemView){
           someLinearLayoutId = (LinearLayout) itemView.findViewById(R.id.some_linear_layout_id)
     }
 }

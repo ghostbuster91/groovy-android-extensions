@@ -1,0 +1,10 @@
+package test
+
+import pl.ghostbuster.grooid.*
+
+
+@BindLayout({R.layout.simple_layout})
+class SimpleLayoutTestCase {
+
+
+}

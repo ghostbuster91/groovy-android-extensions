@@ -1,0 +1,16 @@
+import android.widget.LinearLayout
+import android.view.View
+import pl.ghostbuster.grooid.*
+import com.custom.packagename.*
+
+class LayoutWithCustomPackageTestCase {
+
+    public final LinearLayout rootLayout
+    public final CustomObject nestedImageView
+
+
+    public LayoutWithCustomPackageTestCase(View itemView){
+          rootLayout = (LinearLayout) itemView.findViewById(R.id.root_layout)
+          nestedImageView = (CustomObject) itemView.findViewById(R.id.nested_image_view)
+    }
+}

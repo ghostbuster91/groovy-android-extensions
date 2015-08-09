@@ -31,7 +31,7 @@ final class ViewsFromLayoutExtractorTestCase extends Specification {
         Collection<ViewObject> names = extractor.extractFromLayout(getFileFromResources('/layout/layout_with_custom_package.xml'))
 
         then:
-        names.contains(new ViewObject(id: 'nested_image_view', type: 'com.custom.package.CustomObject'))
+        names.contains(new ViewObject(id: 'nested_image_view', type: 'com.custom.packagename.CustomObject'))
     }
 
     private static String getFileFromResources(String filePath) {

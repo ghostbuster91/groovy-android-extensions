@@ -12,6 +12,7 @@ import org.codehaus.groovy.transform.AbstractASTTransformation
 import org.codehaus.groovy.transform.GroovyASTTransformation
 import pl.ghostbuster.grooid.model.ViewObject
 import pl.ghostbuster.utils.ClassForNameCreator
+import pl.ghostbuster.utils.ResourceProvider
 import pl.ghostbuster.utils.StringUtils
 import pl.ghostbuster.utils.ViewsFromLayoutExtractor
 
@@ -36,7 +37,7 @@ class BindLayoutASTTransformation extends AbstractASTTransformation {
     }
 
     private Collection<ViewObject> getFieldsFromLayout() {
-        return new ViewsFromLayoutExtractor().extractFromLayout(getFileFromResources("/layout/${layoutName}.xml"))
+        return new ViewsFromLayoutExtractor().extractFromLayout(getFileContentFromResources("layout/${layoutName}.xml"))
     }
 
     private Collection<ViewObject> addFields(Collection<ViewObject> views) {
@@ -90,7 +91,7 @@ class BindLayoutASTTransformation extends AbstractASTTransformation {
         return member.code.statements[0].expression
     }
 
-    private static String getFileFromResources(String filePath) {
-        return getClass().getResource(filePath).text
+    private static String getFileContentFromResources(String filePath) {
+        return ResourceProvider.getResource(filePath).text
     }
 }

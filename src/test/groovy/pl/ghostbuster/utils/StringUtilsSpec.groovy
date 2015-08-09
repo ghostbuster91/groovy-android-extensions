@@ -4,7 +4,7 @@ import spock.lang.Specification
 
 final class StringUtilsSpec extends Specification {
 
-    def "ASD"() {
+    def "should make everything camelCase without underscores"() {
         expect:
         StringUtils.underscoreToCamelCase(input) == output
         where:

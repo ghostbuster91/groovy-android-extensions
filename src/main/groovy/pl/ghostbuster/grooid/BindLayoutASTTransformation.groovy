@@ -11,6 +11,7 @@ import org.codehaus.groovy.control.SourceUnit
 import org.codehaus.groovy.transform.AbstractASTTransformation
 import org.codehaus.groovy.transform.GroovyASTTransformation
 import pl.ghostbuster.grooid.model.ViewObject
+import pl.ghostbuster.utils.ClassForNameCreator
 import pl.ghostbuster.utils.StringUtils
 import pl.ghostbuster.utils.ViewsFromLayoutExtractor
 
@@ -35,17 +36,16 @@ class BindLayoutASTTransformation extends AbstractASTTransformation {
     }
 
     private Collection<ViewObject> getFieldsFromLayout() {
-        Collection<ViewObject> views = new ViewsFromLayoutExtractor().extractFromLayout(getFileFromResources("/layout/${layoutName}.xml"))
-        return views
+        return new ViewsFromLayoutExtractor().extractFromLayout(getFileFromResources("/layout/${layoutName}.xml"))
     }
 
     private Collection<ViewObject> addFields(Collection<ViewObject> views) {
         views.each(this.&addField)
     }
 
-    private void addField(ViewObject view) {
-        def type = ClassHelper.make(Class.forName('android.widget.LinearLayout'))
-        classNode.addField(StringUtils.underscoreToCamelCase(view.id), ACC_PUBLIC | ACC_FINAL, type, null)
+    private void addField(ViewObject viewObject) {
+        def type = ClassHelper.make(ClassForNameCreator.create(viewObject.type))
+        classNode.addField(StringUtils.underscoreToCamelCase(viewObject.id), ACC_PUBLIC | ACC_FINAL, type, null)
     }
 
     private void addConstructor(Collection<ViewObject> viewObjects) {
@@ -60,13 +60,15 @@ class BindLayoutASTTransformation extends AbstractASTTransformation {
                 binary {
                     variable StringUtils.underscoreToCamelCase(viewObject.id)
                     token "="
-                    methodCall {
-                        variable constructorBindLayoutParamName
-                        constant findViewByIdMethodName
-                        argumentList {
-                            property {
-                                classExpression Class.forName(getRClassPackage() + '.R$id')
-                                constant viewObject.id
+                    cast ClassForNameCreator.create(viewObject.type), {
+                        methodCall {
+                            variable constructorBindLayoutParamName
+                            constant findViewByIdMethodName
+                            argumentList {
+                                property {
+                                    classExpression Class.forName(getRClassPackage() + '.R$id')
+                                    constant viewObject.id
+                                }
                             }
                         }
                     }

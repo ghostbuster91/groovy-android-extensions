@@ -1,8 +1,10 @@
 package pl.ghostbuster.utils
 
+import groovy.transform.CompileStatic
+
 import java.util.regex.Pattern
 
-
+@CompileStatic
 class ClassForNameCreator {
 
     private static final String androidWidgetPackage = 'android.widget.'

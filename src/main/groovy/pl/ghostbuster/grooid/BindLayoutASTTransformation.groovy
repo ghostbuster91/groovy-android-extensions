@@ -12,7 +12,7 @@ import org.codehaus.groovy.transform.AbstractASTTransformation
 import org.codehaus.groovy.transform.GroovyASTTransformation
 import pl.ghostbuster.grooid.model.ViewObject
 import pl.ghostbuster.utils.ClassForNameCreator
-import pl.ghostbuster.utils.ResourceProvider
+import pl.ghostbuster.utils.ResourcePathResolver
 import pl.ghostbuster.utils.StringUtils
 import pl.ghostbuster.utils.ViewsFromLayoutExtractor
 
@@ -24,12 +24,14 @@ class BindLayoutASTTransformation extends AbstractASTTransformation {
     public static final String findViewByIdMethodName = 'findViewById'
     private ClassNode classNode
     private PropertyExpression annotationExpr
+    private ResourcePathResolver resPathResolver
 
     @Override
     void visit(ASTNode[] nodes, SourceUnit source) {
-        this.classNode = nodes[1] as ClassNode
-        this.annotationExpr = extractExpressionFromAnnotation(nodes[0] as AnnotationNode)
-        this.classNode.annotations.remove(nodes[0] as AnnotationNode)
+        classNode = nodes[1] as ClassNode
+        annotationExpr = extractExpressionFromAnnotation(nodes[0] as AnnotationNode)
+        classNode.annotations.remove(nodes[0] as AnnotationNode)
+        resPathResolver = new ResourcePathResolver(source.source.URI.toASCIIString(), getRClassPackage())
 
         Collection<ViewObject> views = fieldsFromLayout
         addFields(views)
@@ -91,7 +93,7 @@ class BindLayoutASTTransformation extends AbstractASTTransformation {
         return member.code.statements[0].expression
     }
 
-    private static String getFileContentFromResources(String filePath) {
-        return ResourceProvider.getResource(filePath).text
+    private String getFileContentFromResources(String fileName) {
+        return new File(resPathResolver.getPath(fileName)).text
     }
 }
